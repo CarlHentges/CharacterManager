@@ -16,6 +16,11 @@ private:
   int INT = 0;
   int WIS = 0;
   int CHA = 0;
+  int health;
+  int health_max;
+  int AC;
+  string characterName = "";
+  string fluff = "";
 
 public:
 
@@ -48,13 +53,15 @@ public:
 
   }
 
-  Attributes (int Str, int Dex, int Con, int Int, int Wis, int Cha){
-    STR = Str;
-    DEX = Dex;
-    CON = Con;
-    INT = Int;
-    WIS = Wis;
-    CHA = Cha;
+  Attributes (string cName,int attribute[6],string fluf){
+    STR = attribute[0];
+    DEX = attribute[1];
+    CON = attribute[2];
+    INT = attribute[3];
+    WIS = attribute[4];
+    CHA = attribute[5];
+    fluff = fluf;
+    characterName = cName;
   }
 
   int print(){
@@ -81,6 +88,20 @@ public:
     return 0;
   }
 
+  string getName(){
+    return characterName;
+  }
+
+  string getFluff(){
+    return fluff;
+  }
+
+
+  string getAttributes(){
+    return to_string(STR)+"\n"+to_string(DEX)+"\n"+
+           to_string(CON)+"\n"+to_string(INT)+"\n"+
+           to_string(WIS)+"\n"+to_string(CHA);
+  }
 
 
 
