@@ -31,30 +31,36 @@ public:
     }
   }
 
+  int setName(string name){
+    characterName = name;
+    return 0;
+  }
+
   int getValue(string attribute){   //swich only woks on ints (so i made my own)
     return attributes.find(attribute)->second;
   }
 
   int setValue(string attribute,int value){   //swich only woks on ints (so i made my own)
-    attributes.find(attribute)->second = value;
+    if (attributes.find(attribute)!=attributes.end()) {
+      attributes.find(attribute)->second = value;
+    }else{
+      attributes[attribute] = value;
+    }
     return 0;
   }
 
-  Attributes (string cName,int attribute[10],string fluf){
-
-    attributes["STR"] = attribute[0];
-    attributes["DEX"] = attribute[1];
-    attributes["CON"] = attribute[2];
-    attributes["INT"] = attribute[3];
-    attributes["WIS"] = attribute[4];
-    attributes["CHA"] = attribute[5];
-
-    attributes["HitPoints"] = attribute[6];
-    attributes["HitPoints_MAX"] = attribute[7];
-    attributes["Speed"] = attribute[8];
-    attributes["Initiative"] = attribute[9];
-    fluff = fluf;
-    characterName = cName;
+  Attributes(){
+    setValue("STR",0);
+    setValue("DEX",0);
+    setValue("CON",0);
+    setValue("INT",0);
+    setValue("WIS",0);
+    setValue("CHA",0);
+    setValue("HP",0);
+    setValue("HP_MAX",0);
+    setValue("Speed",0);
+    setValue("AC",0);
+    setFluff("");
   }
 
   int print(){
@@ -89,8 +95,13 @@ public:
     return fluff;
   }
 
-  int getSpeed(){
+  int setFluff(string newFluff){
+    fluff = newFluff;
+    return 0;
+  }
 
+  int getSpeed(){
+    return getValue("Speed");
   }
 
   int getHealth(){
@@ -101,10 +112,14 @@ public:
   }
 
   string getAttributes(){
-    return to_string(getValue("STR"))+"\n"+to_string(getValue("DEX"))+"\n"+
-           to_string(getValue("CON"))+"\n"+to_string(getValue("INT"))+"\n"+
-           to_string(getValue("WIS"))+"\n"+to_string(getValue("CHA"));
+    string temp = "";
+    for (std::map<string,int>::iterator a = attributes.begin(); a != attributes.end(); ++a) {
+      temp += "\n" + a->first + "," + to_string(a->second);
+    }
+    return temp;
   }
+
+
 
   ~Attributes (){
     //bye now

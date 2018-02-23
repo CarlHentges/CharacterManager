@@ -13,18 +13,29 @@ int main(){
   Roller roller;
   UIDisplay uiDisplay;
   RWData rwData;
+  Attributes attributes;
 
-  int a[10] = {7,20,8,16,15,9,14,7,15,5};
-  Attributes attributes("eastwood",a,"MAN WITH NO NAME");
+  attributes = rwData.loadCharacter("eastwood");
   uiDisplay.updateUI(attributes);
-  rwData.saveCharacter(attributes);
-  std::cout << rwData.readCharacter("eastwood") << '\n';
-
   string input;
   int value;
   while (true) {
     cin >> input;
-    //std::cout << input << '\n';
+
+    if(input == "load"){
+      cin >> input;
+      attributes = rwData.loadCharacter(input);
+    }
+
+    if (input == "save") {
+      rwData.saveCharacter(attributes);
+    }
+
+    if(input == "help"||input == "h"){
+      std::cout << "load:\nsave:\nroll:\nset:\nclear:\nexit:\n" << '\n';
+      continue;
+    }
+
     if(input == "exit"){
       rwData.saveCharacter(attributes);
       std::cout << "Saveing" << endl;

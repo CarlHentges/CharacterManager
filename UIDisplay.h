@@ -11,13 +11,10 @@ class UIDisplay;
 #include <iomanip>
 //#include <cstdlib>
 #include "Attributes.h"
-#include <vector>
-#include <tuple>
 
 class UIDisplay {
 private:
-
-  std::vector<tuple<int,int>> previousRolls;
+  string previousRolls = "ROLLS:";
 
 public:
   UIDisplay (){
@@ -30,8 +27,11 @@ public:
     showLine();
     showAttributes(attributes);
     showHealth(attributes);
+    showSpeed(attributes);
     showLine();
     showFluff(attributes);
+    showLine();
+    displayDice();
     showLine();
   }
 
@@ -51,7 +51,7 @@ public:
   }
 
   int showFluff(Attributes attributes){
-    std::cout << "FLUFF:" << endl << attributes.getFluff() <<endl ;
+    std::cout << "DESCRIPTION:" << endl << attributes.getFluff() <<endl ;
     return 0;
   }
 
@@ -61,20 +61,28 @@ public:
   }
 
   int showHealth(Attributes attributes){
-    std::cout << "HitPoints: "<<attributes.getHealth()<<"/"<<
-                                attributes.getMaxHealth() << endl;
+    std::cout << "HP: "<<attributes.getValue("HP")<<"/"<<
+                                attributes.getValue("HP_MAX") << endl;
   }
 
-  int displayDice(int dice, int result){
-    for (size_t i = previousRolls.size(); i > previousRolls.size() - 10; i--) {
-      std::cout <<"d["<< to_string(get<0>(previousRolls[i]))<< "] "<< to_string(get<1>(previousRolls[i]))<< endl;
-      if(i == 0) break;
-    }
+  int displayDice(){
+    std::cout << previousRolls << endl;
     return 0;
   }
 
   int getDice(int dice, int result){
-    previousRolls.push_back(tuple<int,int>(dice,result));
+    previousRolls += "\nd"+to_string(dice) +":\t"+to_string(result);
+    return 0;
+  }
+
+  int clearDice(){
+    previousRolls = "ROLLS:";
+    return 0;
+  }
+
+  int showSpeed(Attributes attributes){
+    std::cout << attributes.getSpeed() << "ft\t[" << attributes.getSpeed()/5
+                                                 << "]sq" <<endl;
   }
 
   ~UIDisplay (){

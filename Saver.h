@@ -42,6 +42,15 @@ class Saver {
     return tempData;
   }
 
+  bool exists(string name){
+    ifstream file(name+".txt");
+    if(file){
+      file.close();
+      return true;
+    }
+    return false;
+  }
+
   ~Saver(){
     //Bye Bye
   }
