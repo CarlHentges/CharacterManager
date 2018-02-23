@@ -7,18 +7,15 @@
 class Attributes;
 
 #include <string>
+#include <map>
 
 class Attributes {
 private:
-  int STR = 0;
-  int DEX = 0;
-  int CON = 0;
-  int INT = 0;
-  int WIS = 0;
-  int CHA = 0;
-  int health;
-  int health_max;
-  int AC;
+
+  map<string, int> attributes;
+
+
+  int STR,DEX,CON,INT,WIS,CHA,health,health_max,AC,speed;
   string characterName = "";
   string fluff = "";
 
@@ -35,31 +32,27 @@ public:
   }
 
   int getValue(string attribute){   //swich only woks on ints (so i made my own)
-    if (attribute == "STR") {return STR;}
-    if (attribute == "DEX") {return DEX;}
-    if (attribute == "CON") {return CON;}
-    if (attribute == "INT") {return INT;}
-    if (attribute == "WIS") {return WIS;}
-    if (attribute == "CHA") {return CHA;}
+    return attributes.find(attribute)->second;
   }
 
   int setValue(string attribute,int value){   //swich only woks on ints (so i made my own)
-    if (attribute == "STR") {STR = value;return 0;}
-    if (attribute == "DEX") {DEX = value;return 0;}
-    if (attribute == "CON") {CON = value;return 0;}
-    if (attribute == "INT") {INT = value;return 0;}
-    if (attribute == "WIS") {WIS = value;return 0;}
-    if (attribute == "CHA") {CHA = value;return 0;}
-
+    attributes.find(attribute)->second = value;
+    return 0;
   }
 
-  Attributes (string cName,int attribute[6],string fluf){
-    STR = attribute[0];
-    DEX = attribute[1];
-    CON = attribute[2];
-    INT = attribute[3];
-    WIS = attribute[4];
-    CHA = attribute[5];
+  Attributes (string cName,int attribute[10],string fluf){
+
+    attributes["STR"] = attribute[0];
+    attributes["DEX"] = attribute[1];
+    attributes["CON"] = attribute[2];
+    attributes["INT"] = attribute[3];
+    attributes["WIS"] = attribute[4];
+    attributes["CHA"] = attribute[5];
+
+    attributes["HitPoints"] = attribute[6];
+    attributes["HitPoints_MAX"] = attribute[7];
+    attributes["Speed"] = attribute[8];
+    attributes["Initiative"] = attribute[9];
     fluff = fluf;
     characterName = cName;
   }
@@ -96,14 +89,22 @@ public:
     return fluff;
   }
 
+  int getSpeed(){
 
-  string getAttributes(){
-    return to_string(STR)+"\n"+to_string(DEX)+"\n"+
-           to_string(CON)+"\n"+to_string(INT)+"\n"+
-           to_string(WIS)+"\n"+to_string(CHA);
   }
 
+  int getHealth(){
+    return getValue("HitPoints");
+  }
+  int getMaxHealth(){
+    return getValue("HitPoints_MAX");
+  }
 
+  string getAttributes(){
+    return to_string(getValue("STR"))+"\n"+to_string(getValue("DEX"))+"\n"+
+           to_string(getValue("CON"))+"\n"+to_string(getValue("INT"))+"\n"+
+           to_string(getValue("WIS"))+"\n"+to_string(getValue("CHA"));
+  }
 
   ~Attributes (){
     //bye now

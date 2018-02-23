@@ -26,7 +26,6 @@ public:
     tempData += attributes.getAttributes();
     tempData += "\n" + seperator + "\n";
     tempData += attributes.getFluff();
-
     saver.save(tempData,attributes.getName());
 
     return 0;
