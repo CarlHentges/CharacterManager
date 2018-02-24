@@ -15,7 +15,6 @@ int main(){
   RWData rwData;
   Attributes attributes;
 
-  //attributes = rwData.loadCharacter("eastwood");
   uiDisplay.updateUI(attributes);
   string input;
   int value;
