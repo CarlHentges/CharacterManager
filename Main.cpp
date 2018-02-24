@@ -15,7 +15,7 @@ int main(){
   RWData rwData;
   Attributes attributes;
 
-  attributes = rwData.loadCharacter("eastwood");
+  //attributes = rwData.loadCharacter("eastwood");
   uiDisplay.updateUI(attributes);
   string input;
   int value;
@@ -25,6 +25,7 @@ int main(){
     if(input == "load"){
       cin >> input;
       attributes = rwData.loadCharacter(input);
+      uiDisplay.clearDice();
     }
 
     if (input == "save") {
@@ -36,15 +37,22 @@ int main(){
       continue;
     }
 
-    if(input == "exit"){
-      rwData.saveCharacter(attributes);
-      std::cout << "Saveing" << endl;
+    if(input == "exit"||input == "e"||input == "q"){
+      if(attributes.getName()!=""){
+        rwData.saveCharacter(attributes);
+        std::cout << "Saveing" << endl;
+      }
       break;
     }
 
-    if(input == "roll"){
-      cin >> value;
-      uiDisplay.getDice(value,roller.getRandom(value));
+    if(input == "roll"||input == "r"){
+      cin >> input;
+      if(attributes.isAttribute(input)){
+        uiDisplay.getCheck(input,roller.getRandom(20)+attributes.modifier(input));
+      }else{
+        value = stoi(input);
+        uiDisplay.getDice(value,roller.getRandom(value));
+      }
     }
 
     if(input == "clear"){
@@ -53,8 +61,13 @@ int main(){
 
     if(input == "set"){
       cin >> input;
-      cin >> value;
-      attributes.setValue(input,value);
+      if(input == "name"||input == "Name"){ // RISK OF CHASH TODO: secure this
+        cin >> input;
+        attributes.setName(input);
+      }else{
+        cin >> value;
+        attributes.setValue(input,value);
+      }
     }
 
     uiDisplay.updateUI(attributes);
