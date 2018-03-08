@@ -22,7 +22,7 @@ public:
 
   }
   updateUI(Attributes attributes){
-    system("cls");
+    //system("cls");
     showWelcome();
     showLine();
     showName(attributes);
@@ -112,6 +112,11 @@ public:
 
   int getDice(int dice, int result){
     previousRolls += "\nd"+to_string(dice) +":\t"+to_string(result);
+    return 0;
+  }
+
+  int getAttack(string attack){
+    previousRolls += "\n" + attack;
     return 0;
   }
 

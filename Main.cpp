@@ -1,11 +1,13 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <vector>
 #include "Saver.h"
 #include "UIDisplay.h"
 #include "Attributes.h"
 #include "Roller.h"
 #include "RWData.h"
+#include "Attack.h"
 using namespace std;
 
 int main(){
@@ -14,10 +16,12 @@ int main(){
   UIDisplay uiDisplay;
   RWData rwData;
   Attributes attributes;
-
+  Attack holder;
   uiDisplay.updateUI(attributes);
   string input;
   int value;
+  vector<int> holdingVector;
+
   while (true) {
     cin >> input;
 
@@ -56,6 +60,66 @@ int main(){
 
     if(input == "clear"){
       uiDisplay.clearDice();
+    }
+
+    if (input == "Attack"||input == "a") {
+      cin >> input;
+      if(attributes.isAttack(input)){
+        uiDisplay.getAttack(attributes.getAttack(input,roller));
+      }else{
+        holder.name = input;
+        std::cout << "new Attack: " << input << "give hit attribute or leave blanck for no hit attribute\n or press q to cancel...\n";
+        cin >> input;
+        if(input != "q"){
+          if(attributes.isAttribute(input) || input == ""){
+            holder.hitAttribute = input;
+          }
+
+          cout <<"give damage attribute or _ for no hit attribute\n";
+          cin >> input;
+
+          if(attributes.isAttribute(input) || input == ""){
+            holder.damageAttribute = input;
+          }
+
+          cout <<"damage type\n";
+          cin >> input;
+          holder.damageType = input;
+          holdingVector.clear();
+          cout << "enter hit dice" << '\n';
+          cin >> input;
+          while(isdigit(input.at(0))){
+            cout << input <<" next or character if finished" << '\n';
+            holdingVector.push_back(stoi(input));
+            cin >> input;
+          }
+          holder.diceHit = holdingVector;
+          holdingVector.clear();
+          cout << "enter damage dice" << '\n';
+          cin >> input;
+
+          holdingVector.clear();
+
+          while(isdigit(input.at(0))){
+            cout << input <<" next or character if finished" << '\n';
+            holdingVector.push_back(stoi(input));
+            cin >> input;
+          }
+
+          holder.diceDamage = holdingVector;
+
+          cout << "hit modifier" << '\n';
+          cin >> input;
+          holder.hitMod = stoi(input);
+
+          cout << "damge modifier" << '\n';
+          cin >> input;
+          holder.damMod = stoi(input);
+
+          attributes.newAttack(holder);
+        }
+      holder = {"","","","","",{},{},0,0};
+      }
     }
 
     if(input == "set"){

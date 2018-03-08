@@ -9,26 +9,15 @@ class Attack;
 #include <vector>
 #include <string>
 
-
-class Attack {
-private:
-  vector<int> hitDice;
-  vector<int> damageDice;
-  int hitModifier;
-  int damageModifier;
+struct Attack {
   string name;
-  string baseAttribute;
+  string hitAttribute;
+  string damageAttribute;
   string damageType;
-public:
-  Attack (string name,vector<int> hit,vector<int> damage,int hitMod,int damMod):hitDice(hit),damageDice(damage),hitModifier(hitMod),damageModifier(damMod){
-    // hi
-  }
-
-  ~Attack (){
-    //bye
-  }
-
+  string description;
+  vector<int> diceHit;
+  vector<int> diceDamage;
+  int hitMod,damMod;
 };
-
 
 #endif

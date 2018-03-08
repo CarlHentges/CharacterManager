@@ -8,6 +8,9 @@ class Attributes;
 
 #include <string>
 #include <map>
+#include <vector>
+#include "Roller.h"
+#include "Attack.h"
 
 
 class Attributes {
@@ -15,6 +18,8 @@ private:
 
   map<string, int> attributes;
   map<string, string> skillMap;
+
+  map<string,Attack> attackMap;
   int STR,DEX,CON,INT,WIS,CHA,health,health_max,AC,speed;
   string characterName = "";
   string fluff = "";
@@ -26,6 +31,7 @@ private:
 public:
 
   int modifier(string input){
+
     int baseValue = getValue(input) - 10;
     if (baseValue >= 0) {
       return baseValue / 2;
@@ -169,10 +175,62 @@ public:
     return temp;
   }
 
+
   bool isAttribute(string input){
     return attributes.find(input)!=attributes.end();
   }
 
+  bool isAttack(string input){
+    return attackMap.find(input)!=attackMap.end();
+  }
+
+  int newAttack(Attack attack){
+    if(!isAttack(attack.name)){
+      attackMap[attack.name] = attack;
+    }else{
+      attackMap.find(attack.name) -> second = attack;
+    }
+    return 0;
+  }
+
+  string getAttack(string name,Roller &roller){
+    string output = "Making Attack: ";
+    int total = 0;
+    int tempInt = 0;
+    if(isAttack(name)){
+      Attack temp = attackMap.find(name)->second;
+      output += temp.name +"\nDamage type: "+temp.damageType+ "\nRolling hit Dice";
+      for(int d: temp.diceHit){
+        tempInt = roller.getRandom(d);
+        output += " d" + to_string(d)+":"+to_string(tempInt);
+        total += tempInt;
+      }
+      output += " Plus Hit modifier " + to_string(temp.hitMod);
+      if(isAttribute(temp.hitAttribute)){
+        output += " and "+temp.hitAttribute+" modifier " + to_string(modifier(temp.hitAttribute))
+               + "\tDamage Toal is: " + to_string(total + temp.hitMod +modifier(temp.hitAttribute));
+      }else{
+        output += "\tDamage Toal is: " + to_string(total + temp.hitMod);
+      }
+      output +="\nROlling Damage:";
+      total = 0;
+      tempInt = 0;
+      for(int d: temp.diceDamage){
+        tempInt = roller.getRandom(d);
+        output += " d" + to_string(d)+":"+to_string(tempInt);
+        total += tempInt;
+      }
+      output += " Plus Damage modifier " + to_string(temp.damMod);
+      if(isAttribute(temp.damageAttribute)){
+        output += " and "+temp.damageAttribute+" modifier "+ to_string(modifier(temp.damageAttribute))
+               + "\t Hit Toal is: " + to_string(total + temp.damMod+ modifier(temp.damageAttribute));
+      }else{
+        output += "\tHit Toal is: " + to_string(total + temp.damMod);
+      }
+      return output;
+    }
+    return "NOT AN ATTACK";
+  }
 
   ~Attributes (){
     //bye now
