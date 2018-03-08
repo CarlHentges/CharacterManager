@@ -160,12 +160,12 @@ public:
     return getValue("Speed");
   }
 
-  int getHealth(){
-    return getValue("HitPoints");
-  }
-  int getMaxHealth(){
-    return getValue("HitPoints_MAX");
-  }
+  // int getHealth(){
+  //   return getValue("HitPoints");
+  // }
+  // int getMaxHealth(){
+  //   return getValue("HitPoints_MAX");
+  // }
 
   string getAttributes(){
     string temp = "";
@@ -191,6 +191,41 @@ public:
       attackMap.find(attack.name) -> second = attack;
     }
     return 0;
+  }
+
+  int loadAttack(string name,string hitAttribute,string damageAttribute,string damageType,vector<int> diceHit,vector<int> diceDamage, int hitMod,int damMod){
+    attackMap[name] = Attack{name,hitAttribute,damageAttribute,damageType,diceHit,diceDamage,hitMod,damMod};
+    return 0;
+  }
+
+  string getAttackData(){
+    string temp = "\n";
+    for (std::map<string,Attack>::iterator a = attackMap.begin(); a != attackMap.end(); ++a) {
+      temp += "#ATTACK#\n";
+      temp += a->second.name;
+      temp +="\n";
+      temp += a->second.hitAttribute;
+      temp +="\n";
+      temp += a->second.damageAttribute;
+      temp +="\n";
+      temp += a->second.damageType;
+      temp +="\n";
+      for (int d:a->second.diceHit) {
+        temp +=to_string(d)+",";
+      }
+      temp +="\n";
+      for(int d:a->second.diceDamage){
+        temp +=to_string(d)+",";
+      }
+      temp +="\n";
+      temp += to_string(a->second.hitMod);
+      temp +="\n";
+      temp += to_string(a->second.damMod);
+      if(a  != attackMap.end()){
+        temp += "\n";
+      }
+    }
+    return temp;
   }
 
   string getAttack(string name,Roller &roller){

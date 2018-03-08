@@ -118,7 +118,7 @@ int main(){
 
           attributes.newAttack(holder);
         }
-      holder = {"","","","","",{},{},0,0};
+      holder = {"","","","",{},{},0,0};
       }
     }
 

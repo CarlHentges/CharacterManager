@@ -14,7 +14,6 @@ struct Attack {
   string hitAttribute;
   string damageAttribute;
   string damageType;
-  string description;
   vector<int> diceHit;
   vector<int> diceDamage;
   int hitMod,damMod;

@@ -32,8 +32,11 @@ public:
     tempData += attributes.getName();
     tempData += s +"\n" + "#ATTRIBUTES#";
     tempData += attributes.getAttributes();
-    tempData += s +"\n" + "#FLUFF#";
+    //tempData += s +"\n" + "#ATTACK#";
+    tempData += attributes.getAttackData();
+    tempData += s + "#FLUFF#";
     tempData += attributes.getFluff();
+    tempData += s +"\n" + "#END#";
     saver.save(tempData,attributes.getName());
 
     return 0;
@@ -46,6 +49,7 @@ public:
 
     string temp = "";
     string status ="";
+    int count = 0;
 
     if(!saver.exists(name)){
       attributes.setName(name);
@@ -55,7 +59,7 @@ public:
     istringstream input(read(name));
     std::cout << "2" << '\n';
     while (getline(input,temp)){
-      std::cout << "3 temp:" << temp << " status: " << status<< '\n';
+      std::cout << "temp:" << temp << " status: " << status<< '\n';
       if(temp == "#NAME#"){
         status = "NAME";
         continue;
@@ -67,6 +71,15 @@ public:
       if(temp == "#FLUFF#"){
         status = "FLUFF";
         continue;
+      }
+
+      if(temp == "#ATTACK#"){
+        status = "ATTACK";
+        continue;
+      }
+
+      if(temp == "#END#"){
+        break;
       }
 
       if(status == "NAME"){
@@ -81,12 +94,49 @@ public:
         continue;
       }
 
+      if(status == "ATTACK"){
+        string name = temp;
+        getline(input,temp);
+        string hitAttribute = temp;
+        getline(input,temp);
+        string damageAttribute = temp;
+        getline(input,temp);
+        string damageType = temp;
+        getline(input,temp);
+        vector<int> diceHit = toVector(temp);
+        getline(input,temp);
+        vector<int> diceDamage = toVector(temp);
+        getline(input,temp);
+        std::cout << temp << '\n';
+        int hitMod = stoi(temp);
+        getline(input,temp);
+        std::cout << temp << '\n';
+        int damMod = stoi(temp);
+        attributes.loadAttack(name,hitAttribute,damageAttribute,damageType,diceHit,diceDamage,hitMod,damMod);
+        std::cout << "done" << '\n';
+        continue;
+      }
+
       if(status == "FLUFF"){
         attributes.setFluff(attributes.getFluff() + "\n" + temp);
         continue;
       }
     }
     return attributes;
+  }
+
+  vector<int> toVector(string input){
+    string temp = "";
+    vector<int> tempVector;
+    for(int i = 0; i < input.length();i++){
+      if(isdigit(input.at(i))){
+        temp += input.at(i);
+      }else{
+        tempVector.push_back(stoi(temp));
+        temp = "";
+      }
+    }
+    return tempVector;
   }
 
 
