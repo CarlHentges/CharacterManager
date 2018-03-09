@@ -22,7 +22,7 @@ public:
 
   }
   updateUI(Attributes attributes){
-    //system("cls");
+    system("cls");
     showWelcome();
     showLine();
     showName(attributes);

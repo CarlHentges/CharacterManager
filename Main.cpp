@@ -25,6 +25,8 @@ int main(){
   while (true) {
     cin >> input;
 
+    roller.roll(roller.roll());
+
     if(input == "load"){
       cin >> input;
       attributes = rwData.loadCharacter(input);

@@ -13,7 +13,6 @@ using namespace std;
 
 class Roller {
 private:
-  std::random_device rd;
   std::mt19937_64 gen;
 public:
   int getRandom(int dice){
@@ -23,8 +22,7 @@ public:
   }
 
   Roller (){
-    rd();
-    std::mt19937 gen(time(nullptr));
+    std::mt19937 gen(std::time_t&);
 
   }
   ~Roller (){

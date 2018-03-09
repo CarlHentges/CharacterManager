@@ -243,9 +243,9 @@ public:
       output += " Plus Hit modifier " + to_string(temp.hitMod);
       if(isAttribute(temp.hitAttribute)){
         output += " and "+temp.hitAttribute+" modifier " + to_string(modifier(temp.hitAttribute))
-               + "\tDamage Toal is: " + to_string(total + temp.hitMod +modifier(temp.hitAttribute));
+               + "\tHit Toal is: " + to_string(total + temp.hitMod +modifier(temp.hitAttribute));
       }else{
-        output += "\tDamage Toal is: " + to_string(total + temp.hitMod);
+        output += "\tHit Toal is: " + to_string(total + temp.hitMod);
       }
       output +="\nROlling Damage:";
       total = 0;
@@ -258,9 +258,9 @@ public:
       output += " Plus Damage modifier " + to_string(temp.damMod);
       if(isAttribute(temp.damageAttribute)){
         output += " and "+temp.damageAttribute+" modifier "+ to_string(modifier(temp.damageAttribute))
-               + "\t Hit Toal is: " + to_string(total + temp.damMod+ modifier(temp.damageAttribute));
+               + "\t Damage Toal is: " + to_string(total + temp.damMod+ modifier(temp.damageAttribute));
       }else{
-        output += "\tHit Toal is: " + to_string(total + temp.damMod);
+        output += "\t Damage Toal is: " + to_string(total + temp.damMod);
       }
       return output;
     }
